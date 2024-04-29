@@ -17,6 +17,7 @@ const filters = {
 //DOM Variables
 const searchInput = document.querySelector("#search");
 const productsDOM = document.querySelector(".products-center");
+const filterBtns = document.querySelectorAll(".btn");
 
 document.addEventListener("DOMContentLoaded", () => {
   //load the data from json server(endpoint) when page loaded
@@ -59,4 +60,12 @@ function renderProducts(_products, _filter) {
 searchInput.addEventListener("input", (e) => {
   filters.searchItems = e.target.value;
   renderProducts(allProductsData, filters);
+});
+
+filterBtns.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const filter = e.target.dataset.filter;
+    filters.searchItems = filter;
+    renderProducts(allProductsData, filter);
+  });
 });
