@@ -18,6 +18,7 @@ const filters = {
 const searchInput = document.querySelector("#search");
 const productsDOM = document.querySelector(".products-center");
 const filterBtns = document.querySelectorAll(".btn");
+const filterBox = document.querySelectorAll(".filter-box");
 
 document.addEventListener("DOMContentLoaded", () => {
   //load the data from json server(endpoint) when page loaded
@@ -62,10 +63,27 @@ searchInput.addEventListener("input", (e) => {
   renderProducts(allProductsData, filters);
 });
 
-filterBtns.forEach((btn) => {
+//Filters the DOM
+/* filterBtns.forEach((btn) => {
   btn.addEventListener("click", (e) => {
+   
     const filter = e.target.dataset.filter;
     filters.searchItems = filter;
     renderProducts(allProductsData, filter);
+  });
+  e.target.classList.add("active");
+});
+ */
+
+//Manages the button active class and filters the DOM
+filterBox.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    filterBtns.forEach((btn) => {
+      btn.classList.remove("active");
+      const filter = e.target.dataset.filter;
+      filters.searchItems = filter;
+      renderProducts(allProductsData, filter);
+    });
+    e.target.classList.add("active");
   });
 });
