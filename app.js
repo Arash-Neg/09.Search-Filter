@@ -9,12 +9,14 @@ const app = axios.create({
 
 //Global Variables
 let allProductsData = [];
+
 const filters = {
   searchItems: "",
 };
 
 //DOM Variables
 const searchInput = document.querySelector("#search");
+const productsDOM = document.querySelector(".products-center");
 
 document.addEventListener("DOMContentLoaded", () => {
   //load the data from json server(endpoint) when page loaded
@@ -30,11 +32,28 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function renderProducts(_products, _filter) {
+  //get the searched products
   const filterProducts = _products.filter((p) =>
     p.title.toLowerCase().includes(filters.searchItems.toLowerCase())
   );
-  console.log(filterProducts);
-  return filterProducts;
+  //as soon as the user typed somethind in the search box the productsDOM should be empty otherwise it would appendchild the previous ones
+  productsDOM.innerHTML = "";
+
+  filterProducts.forEach((item, index) => {
+    // 1.content
+    const productsDIV = document.createElement("div");
+    productsDIV.classList.add("product");
+    productsDIV.innerHTML = `<div class="img-container">
+    <img src="${item.image}" alt= "p-${index}" class="product-img" />
+  </div>
+  <div class="product-desc">
+    <p class="product-price">$ ${item.price}</p>
+    <p class="product-title">${item.title}</p>
+  </div>`;
+
+    // 2.append to DOM
+    productsDOM.appendChild(productsDIV);
+  });
 }
 
 searchInput.addEventListener("input", (e) => {
